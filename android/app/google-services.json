@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "769001290582",
+    "project_id": "gec-connect-final1",
+    "storage_bucket": "gec-connect-final1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769001290582:android:7b136842a3d692935174f7",
+        "android_client_info": {
+          "package_name": "com.example.gecconnectfinal1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769001290582-4ir93l2sqneovisqhsfsfefjvu2iugl0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY_Mg-T1vgwhumpYUnikoNQrt8LL5rVHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769001290582-4ir93l2sqneovisqhsfsfefjvu2iugl0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
