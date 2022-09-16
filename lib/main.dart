@@ -6,6 +6,7 @@ import 'views/email_verify.dart';
 import 'views/login_view.dart';
 import 'views/main_loged_in_view.dart';
 
+import 'views/profile_page_view.dart';
 import 'views/register_view.dart';
 
 import '/views/splash.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  const Splash(),
+      home:  const ProfileView(),
       routes: {
         loginRoute:(context) => const Login(),
         registerRoute:(context) => const Register(),
