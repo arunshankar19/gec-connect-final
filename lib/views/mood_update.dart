@@ -1,30 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/routes.dart';
 
 enum MenuAction { logout }
 
-class BioUpdate extends StatefulWidget {
-  const BioUpdate({Key? key}) : super(key: key);
+class MoodUpdate extends StatefulWidget {
+  const MoodUpdate({Key? key}) : super(key: key);
 
   @override
-  State<BioUpdate> createState() => _BioUpdateState();
+  State<MoodUpdate> createState() => _MoodUpdateState();
 }
 
-class _BioUpdateState extends State<BioUpdate> {
-  late final TextEditingController bioField;
+class _MoodUpdateState extends State<MoodUpdate> {
+  late final TextEditingController moodField;
   @override
   void initState() {
-    bioField = TextEditingController();
+    moodField = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    bioField.dispose();
+    moodField.dispose();
     super.dispose();
   }
 
@@ -35,7 +37,7 @@ class _BioUpdateState extends State<BioUpdate> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 112, 9, 1),
         title: const Text(
-          'Update your Bio',
+          'Update your Mood',
         ),
         actions: [
           PopupMenuButton<MenuAction>(
@@ -74,61 +76,53 @@ class _BioUpdateState extends State<BioUpdate> {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 112, 9, 1))),
+                          border: OutlineInputBorder(),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Color.fromARGB(255, 112, 9, 1),
                             ),
                           ),
-                          hintText: 'Enter your bio',
+                          hintText: 'Enter your mood',
                           hintStyle: GoogleFonts.openSans(),
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 6, horizontal: 5)),
-                      controller: bioField,
+                      controller: moodField,
                     ),
                   ),
                 ),
               ),
               Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                      )
-                    ],
-                  ),
                   height: 22,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.white),
-                      onPressed: () {
-                        final user = FirebaseAuth.instance.currentUser;
-                        final db = FirebaseFirestore.instance;
-                        final bio = bioField.text;
-                        final data = {'bio': bio};
-                        db
-                            .collection('users')
-                            .doc(user?.email)
-                            .set(data, SetOptions(merge: true));
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                    ),
+                    onPressed: () {
+                      final user = FirebaseAuth.instance.currentUser;
+                      final db = FirebaseFirestore.instance;
+                      final mood = moodField.text;
+                      final data = {'mood': mood};
+                      db
+                          .collection('users')
+                          .doc(user?.email)
+                          .set(data, SetOptions(merge: true));
 
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          profileRoute,
-                          (route) => false,
-                        );
-                      },
-                      child: Text(
-                        "Save",
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        profileRoute,
+                        (route) => false,
+                      );
+                    },
+                    child: Text("Save",
                         style: GoogleFonts.openSans(
-                            color: Color.fromARGB(255, 112, 9, 15)),
-                      )))
+                          color: Color.fromARGB(255, 112, 9, 15),
+                        )),
+                  ))
             ],
           ),
         ),
       ),
     );
+    ;
   }
 }
 

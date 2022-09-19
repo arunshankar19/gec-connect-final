@@ -6,3 +6,4 @@ const profileRoute = '/profile';
 const bioUpdateRoute = '/bioupdate';
 const profile = '/profile';
 const backtomap = '/backtomap';
+const moodUpdate = '/moodup';
