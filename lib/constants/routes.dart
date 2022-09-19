@@ -4,3 +4,4 @@ const verifyRoute = '/verify';
 const mainRoute = '/mainpage';
 const profileRoute = '/profile';
 const bioUpdateRoute = '/bioupdate';
+const profile = '/profile';

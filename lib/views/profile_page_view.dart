@@ -95,11 +95,11 @@ class _ProfileViewState extends State<ProfileView> {
         ],
       ),
       body: Container(
-        color: Color.fromARGB(255, 156, 156, 156),
+        color: Color.fromARGB(255, 220, 220, 220),
         child: SafeArea(
           child: Column(children: [
             SizedBox(
-              height: 160,
+              height: 150,
             ),
             CircleAvatar(
               radius: 40,
@@ -117,7 +117,8 @@ class _ProfileViewState extends State<ProfileView> {
               child: Text(
                 "Name",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -127,64 +128,132 @@ class _ProfileViewState extends State<ProfileView> {
             Padding(
               padding: EdgeInsets.only(right: 300, left: 10),
               child: Container(
-                height: 40,
                 child: Text(
                   "Bio",
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
-            SizedBox(height: 2.5),
+
             Padding(
-                padding: EdgeInsets.only(right: 10, left: 10),
+                padding: EdgeInsets.only(right: 10, left: 10, bottom: 10),
                 child: Container(
-                  height: 40,
                   child: Text("Hey there I am using GEC-CONNECT"),
                 )),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.white),
-              onPressed: () {
-                
-              },
-              child: const Text(
-                'Update',
-                style: TextStyle(color: Colors.black),
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                  )
+                ],
+              ),
+              height: 22,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 112, 9, 1)),
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      bioUpdateRoute, (route) => false);
+                },
+                child: Text(
+                  'Update',
+                  style: GoogleFonts.openSans(
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 12),
+                ),
               ),
             ),
             SizedBox(
               height: 20,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: EdgeInsets.only(right: 300, left: 20),
               child: Container(
-                height: 40,
-                child: TextField(
-                  controller: _mood,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter your mood',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 8)),
+                child: Text(
+                  "Mood",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
-            SizedBox(height: 2.5),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.white),
-              onPressed: () async {
-                final mood = _mood.text;
-
-                var db = FirebaseFirestore.instance;
-                final user = FirebaseAuth.instance.currentUser;
-                final email = user?.email;
-                final userData = <String, dynamic>{'mood': mood};
-                db.collection('user').doc(email).set(userData, SetOptions(merge: true));
-              },
-              child: const Text(
-                'Save',
-                style: TextStyle(color: Colors.black),
+            SizedBox(height: 0.5),
+            Padding(
+                padding: EdgeInsets.only(right: 10, left: 10, bottom: 10),
+                child: Container(
+                  child: Text("Please update your mood"),
+                )),
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                  )
+                ],
+              ),
+              height: 22,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 112, 9, 1)),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        // Retrieve the text the that user has entered by using the
+                        // TextEditingController.
+                        content: TextField(),
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  'Update',
+                  style: GoogleFonts.openSans(
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 12),
+                ),
               ),
             ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 50),
+            //   child: Container(
+            //     height: 40,
+            //     child: TextField(
+            //       controller: _mood,
+            //       decoration: InputDecoration(
+            //           border: OutlineInputBorder(),
+            //           hintText: 'Enter your mood',
+            //           contentPadding:
+            //               EdgeInsets.symmetric(vertical: 8, horizontal: 8)),
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 2.5),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(primary: Colors.white),
+            //   onPressed: () async {
+            //     final mood = _mood.text;
+
+            //     var db = FirebaseFirestore.instance;
+            //     final userData = <String, dynamic>{'mood': mood};
+            //     showDialog(
+            //       context: context,
+            //       builder: (context) {
+            //         return AlertDialog(
+            //           // Retrieve the text the that user has entered by using the
+            //           // TextEditingController.
+            //           content: Text(_mood.text),
+            //         );
+            //       },
+            //     );
+            //   },
+            //   child: const Text(
+            //     'Save',
+            //     style: TextStyle(color: Colors.black),
+            //   ),
+            // ),
             // Row(
             //   children: [
             //     // Padding(
@@ -258,3 +327,10 @@ Future<bool> showDialogeLogout(BuildContext context) {
     ),
   ).then((value) => value ?? false);
 }
+
+
+// Future<Map<String,dynamic>> getCurUserData () {
+//   final db = FirebaseFirestore.instance;
+//   final cu = FirebaseAuth.instance.currentUser;
+
+// }

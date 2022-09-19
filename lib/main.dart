@@ -16,6 +16,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ProfileView(),
+      home: const SigninView(),
       routes: {
         loginRoute: (context) => const Login(),
         registerRoute: (context) => const Register(),
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         mainRoute: (context) => const SigninView(),
         profileRoute:(context) => const ProfileView(),
         bioUpdateRoute:(context) => const BioUpdate(),
+        profile: (context) => const ProfileView()
       },
     );
   }
