@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../constants/routes.dart';
 
-enum MenuAction { logout }
+enum MenuAction { logout, backtomap }
 
 enum MoodDropDown {
   happy,
@@ -83,10 +83,16 @@ class _ProfileViewState extends State<ProfileView> {
                         .pushNamedAndRemoveUntil(loginRoute, (route) => false);
                   }
                   break;
+
+                case MenuAction.backtomap:
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(backtomap, (route) => false);
               }
             },
             itemBuilder: (context) {
               return [
+                const PopupMenuItem<MenuAction>(
+                    value: MenuAction.backtomap, child: Text('Back to Map')),
                 const PopupMenuItem<MenuAction>(
                     value: MenuAction.logout, child: Text('Sign Out')),
               ];

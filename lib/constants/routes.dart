@@ -5,3 +5,4 @@ const mainRoute = '/mainpage';
 const profileRoute = '/profile';
 const bioUpdateRoute = '/bioupdate';
 const profile = '/profile';
+const backtomap = '/backtomap';
