@@ -8,6 +8,8 @@ import 'dart:developer' as devtools show log;
 import '../constants/routes.dart';
 import 'package:location/location.dart';
 
+import 'friend_profile_view.dart';
+
 enum MenuAction { logout, profile }
 
 class SigninView extends StatefulWidget {
@@ -67,7 +69,7 @@ class _SigninViewState extends State<SigninView> {
                     value: MenuAction.profile, child: Text('Profile')),
                 const PopupMenuItem<MenuAction>(
                     value: MenuAction.logout, child: Text('Sign Out')),
-                    
+
               ];
             },
           )
@@ -186,8 +188,8 @@ Future<List<Marker>> markerData() async {
     devtools.log(i.toString());
     final k = Marker(
       point: latlong.LatLng(i['latitude'], i['longitude']),
-      width: 50,
-      height: 60,
+      width: 70,
+      height: 70,
       builder: (context) => IconButton(
         icon: Column(
           children: [
@@ -201,7 +203,8 @@ Future<List<Marker>> markerData() async {
           ],
         ),
         onPressed: () {
-          devtools.log('Location Presssed');
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FriendProfile(name:i['name'],bio:i['bio'],mood:i['mood'])));
+          devtools.log(i.toString());
         },
       ),
     );

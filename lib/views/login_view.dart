@@ -169,7 +169,7 @@ class _LoginState extends State<Login> {
                                   );
                                 } else {
                                   Navigator.of(context).pushNamedAndRemoveUntil(
-                                   mainRoute,
+                                   verifyRoute,
                                     (route) => false,
                                   );
                                 }

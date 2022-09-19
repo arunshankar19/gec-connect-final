@@ -201,6 +201,8 @@ class _RegisterState extends State<Register> {
                                 'name': name,
                                 'email': email,
                                 'key': 1,
+                                'bio': 'Hey There, I am Using GEC Connect',
+                                'mood': 'Not Specified',
                                 'latitude': l?.latitude,
                                 'longitude': l?.longitude
                               };
