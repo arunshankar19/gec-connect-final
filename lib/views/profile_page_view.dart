@@ -144,16 +144,7 @@ class _ProfileViewState extends State<ProfileView> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(primary: Colors.white),
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      // Retrieve the text the that user has entered by using the
-                      // TextEditingController.
-                      content: TextField(),
-                    );
-                  },
-                );
+                
               },
               child: const Text(
                 'Update',
@@ -184,17 +175,10 @@ class _ProfileViewState extends State<ProfileView> {
                 final mood = _mood.text;
 
                 var db = FirebaseFirestore.instance;
+                final user = FirebaseAuth.instance.currentUser;
+                final email = user?.email;
                 final userData = <String, dynamic>{'mood': mood};
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      // Retrieve the text the that user has entered by using the
-                      // TextEditingController.
-                      content: Text(_mood.text),
-                    );
-                  },
-                );
+                db.collection('user').doc(email).set(userData, SetOptions(merge: true));
               },
               child: const Text(
                 'Save',

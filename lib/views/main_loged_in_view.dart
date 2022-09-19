@@ -63,6 +63,7 @@ class _SigninViewState extends State<SigninView> {
               return [
                 const PopupMenuItem<MenuAction>(
                     value: MenuAction.logout, child: Text('Sign Out')),
+                    
               ];
             },
           )
