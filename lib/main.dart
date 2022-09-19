@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gecconnectfinal1/views/bio_update.dart';
+import 'package:gecconnectfinal1/views/mood_update.dart';
 import 'constants/routes.dart';
 import 'views/email_verify.dart';
 import 'views/login_view.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
         mainRoute: (context) => const SigninView(),
         profileRoute:(context) => const ProfileView(),
         bioUpdateRoute:(context) => const BioUpdate(),
-        profile: (context) => const ProfileView()
+        profile: (context) => const ProfileView(),
+        moodUpdate:(context) => const MoodUpdate(),
       },
     );
   }

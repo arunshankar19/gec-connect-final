@@ -1,32 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/routes.dart';
 
 enum MenuAction { logout }
 
-class BioUpdate extends StatefulWidget {
-  const BioUpdate({Key? key}) : super(key: key);
+class MoodUpdate extends StatefulWidget {
+  const MoodUpdate({Key? key}) : super(key: key);
 
   @override
-  State<BioUpdate> createState() => _BioUpdateState();
+  State<MoodUpdate> createState() => _MoodUpdateState();
 }
 
-class _BioUpdateState extends State<BioUpdate> {
-  late final TextEditingController bioField;
+class _MoodUpdateState extends State<MoodUpdate> {
+  late final TextEditingController moodField;
   @override
   void initState() {
-    bioField = TextEditingController();
+    moodField = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    bioField.dispose();
+    moodField.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,14 +67,14 @@ class _BioUpdateState extends State<BioUpdate> {
         child: Column(
           children: [
             TextField(
-              controller: bioField,
+              controller: moodField,
             ),
             ElevatedButton(
                 onPressed: () {
                   final user = FirebaseAuth.instance.currentUser;
                   final db = FirebaseFirestore.instance;
-                  final bio = bioField.text;
-                  final data = {'bio':bio};
+                  final mood = moodField.text;
+                  final data = {'mood':mood};
                   db.collection('users').doc(user?.email).set(data, SetOptions(merge: true));
                   
                   Navigator.of(context).pushNamedAndRemoveUntil(
@@ -83,9 +86,11 @@ class _BioUpdateState extends State<BioUpdate> {
           ],
         ),
       ),
-    );
+    );;
   }
 }
+
+
 
 Future<bool> showDialogeLogout(BuildContext context) {
   return showDialog<bool>(
