@@ -8,7 +8,7 @@ import 'dart:developer' as devtools show log;
 import '../constants/routes.dart';
 import 'package:location/location.dart';
 
-enum MenuAction { logout }
+enum MenuAction { logout, profile }
 
 class SigninView extends StatefulWidget {
   const SigninView({Key? key}) : super(key: key);
@@ -38,7 +38,6 @@ class _SigninViewState extends State<SigninView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 112, 9, 1),
         title: const Text(
@@ -57,10 +56,15 @@ class _SigninViewState extends State<SigninView> {
                         .pushNamedAndRemoveUntil(loginRoute, (route) => false);
                   }
                   break;
+                case MenuAction.profile:
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(profile, (route) => false);
               }
             },
             itemBuilder: (context) {
               return [
+                const PopupMenuItem<MenuAction>(
+                    value: MenuAction.profile, child: Text('Profile')),
                 const PopupMenuItem<MenuAction>(
                     value: MenuAction.logout, child: Text('Sign Out')),
               ];

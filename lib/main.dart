@@ -29,12 +29,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ProfileView(),
+      home: const SigninView(),
       routes: {
         loginRoute: (context) => const Login(),
         registerRoute: (context) => const Register(),
         verifyRoute: (context) => const VerifyEmail(),
         mainRoute: (context) => const SigninView(),
+        profile: (context) => const ProfileView()
       },
     );
   }
