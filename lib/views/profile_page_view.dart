@@ -233,57 +233,63 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: 50),
-                  //   child: Container(
-                  //     height: 40,
-                  //     child: TextField(
-                  //       controller: _mood,
-                  //       decoration: InputDecoration(
-                  //           border: OutlineInputBorder(),
-                  //           hintText: 'Enter your mood',
-                  //           contentPadding:
-                  //               EdgeInsets.symmetric(vertical: 8, horizontal: 8)),
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(height: 2.5),
-                  // ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(primary: Colors.white),
-                  //   onPressed: () async {
-                  //     final mood = _mood.text;
 
-                  //     var db = FirebaseFirestore.instance;
-                  //     final userData = <String, dynamic>{'mood': mood};
-                  //     showDialog(
-                  //       context: context,
-                  //       builder: (context) {
-                  //         return AlertDialog(
-                  //           // Retrieve the text the that user has entered by using the
-                  //           // TextEditingController.
-                  //           content: Text(_mood.text),
-                  //         );
-                  //       },
-                  //     );
-                  //   },
-                  //   child: const Text(
-                  //     'Save',
-                  //     style: TextStyle(color: Colors.black),
-                  //   ),
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     // Padding(
-                  //     //   padding: const EdgeInsets.symmetric(horizontal: 100.0),
-                  //     //   child: Text(
-                  //     //     'Select your current mood',
-                  //     //     style: TextStyle(fontSize: 16.0),
-                  //     //   ),
-                  //     // ),
-                  //   ],
-                  // ),
                   SizedBox(
                     height: 2.5,
+                  ),
+                  Container(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 100,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromARGB(255, 0, 0, 0)
+                                    .withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                              )
+                            ],
+                          ),
+                          height: 22,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(255, 255, 255, 255)),
+                            onPressed: () async {
+                              var db = FirebaseFirestore.instance;
+
+                              final cu =
+                                  FirebaseAuth.instance.currentUser?.email;
+                              final logoutVal =
+                                  await showDialogeLocAcc(context);
+
+                              if (logoutVal) {
+                                final data = {'key': 1};
+                                db
+                                    .collection('users')
+                                    .doc(cu)
+                                    .set(data, SetOptions(merge: true));
+                              } else {
+                                final data = {'key': 2};
+                                db
+                                    .collection('users')
+                                    .doc(cu)
+                                    .set(data, SetOptions(merge: true));
+                              }
+                            },
+                            child: Text(
+                              'Location Access',
+                              style: GoogleFonts.openSans(
+                                  color: Color.fromARGB(255, 112, 9, 1),
+                                  fontSize: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   // Container(
                   //   height: 35,
@@ -356,4 +362,31 @@ Future<Map<String, dynamic>> getCurUserBio() async {
   // final data2 = data['bio'];
   // print(data['bio']);
   return data;
+}
+
+Future<bool> showDialogeLocAcc(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(
+        'Location Access',
+        style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+      ),
+      content: const Text('Choose location access preference'),
+      actions: [
+        RaisedButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            highlightColor: Color.fromARGB(255, 137, 10, 1),
+            child: const Text('Disable')),
+        RaisedButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            highlightColor: Color.fromARGB(255, 137, 10, 1),
+            child: const Text('Enable'))
+      ],
+    ),
+  ).then((value) => value ?? false);
 }

@@ -69,7 +69,6 @@ class _SigninViewState extends State<SigninView> {
                     value: MenuAction.profile, child: Text('Profile')),
                 const PopupMenuItem<MenuAction>(
                     value: MenuAction.logout, child: Text('Sign Out')),
-
               ];
             },
           )
@@ -203,7 +202,9 @@ Future<List<Marker>> markerData() async {
           ],
         ),
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FriendProfile(name:i['name'],bio:i['bio'],mood:i['mood'])));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => FriendProfile(
+                  name: i['name'], bio: i['bio'], mood: i['mood'])));
           devtools.log(i.toString());
         },
       ),
