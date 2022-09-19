@@ -37,7 +37,7 @@ class _MoodUpdateState extends State<MoodUpdate> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 112, 9, 1),
         title: const Text(
-          'GEC CONNECT',
+          'Update your Mood',
         ),
         actions: [
           PopupMenuButton<MenuAction>(
@@ -64,33 +64,67 @@ class _MoodUpdateState extends State<MoodUpdate> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            TextField(
-              controller: moodField,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  final user = FirebaseAuth.instance.currentUser;
-                  final db = FirebaseFirestore.instance;
-                  final mood = moodField.text;
-                  final data = {'mood':mood};
-                  db.collection('users').doc(user?.email).set(data, SetOptions(merge: true));
-                  
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    profileRoute,
-                    (route) => false,
-                  );
-                },
-                child: const Text("Update"))
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 275),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(255, 112, 9, 1),
+                            ),
+                          ),
+                          hintText: 'Enter your mood',
+                          hintStyle: GoogleFonts.openSans(),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 6, horizontal: 5)),
+                      controller: moodField,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                  height: 22,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                    ),
+                    onPressed: () {
+                      final user = FirebaseAuth.instance.currentUser;
+                      final db = FirebaseFirestore.instance;
+                      final mood = moodField.text;
+                      final data = {'mood': mood};
+                      db
+                          .collection('users')
+                          .doc(user?.email)
+                          .set(data, SetOptions(merge: true));
+
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        profileRoute,
+                        (route) => false,
+                      );
+                    },
+                    child: Text("Save",
+                        style: GoogleFonts.openSans(
+                          color: Color.fromARGB(255, 112, 9, 15),
+                        )),
+                  ))
+            ],
+          ),
         ),
       ),
-    );;
+    );
+    ;
   }
 }
-
-
 
 Future<bool> showDialogeLogout(BuildContext context) {
   return showDialog<bool>(

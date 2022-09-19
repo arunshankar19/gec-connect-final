@@ -38,10 +38,11 @@ class MyApp extends StatelessWidget {
         registerRoute: (context) => const Register(),
         verifyRoute: (context) => const VerifyEmail(),
         mainRoute: (context) => const SigninView(),
-        profileRoute:(context) => const ProfileView(),
-        bioUpdateRoute:(context) => const BioUpdate(),
+        profileRoute: (context) => const ProfileView(),
+        backtomap: (context) => const SigninView(),
+        bioUpdateRoute: (context) => const BioUpdate(),
         profile: (context) => const ProfileView(),
-        moodUpdate:(context) => const MoodUpdate(),
+        moodUpdate: (context) => const MoodUpdate(),
       },
     );
   }

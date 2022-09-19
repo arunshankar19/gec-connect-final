@@ -27,6 +27,7 @@ class _BioUpdateState extends State<BioUpdate> {
     bioField.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +35,7 @@ class _BioUpdateState extends State<BioUpdate> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 112, 9, 1),
         title: const Text(
-          'GEC CONNECT',
+          'Update your Bio',
         ),
         actions: [
           PopupMenuButton<MenuAction>(
@@ -61,26 +62,70 @@ class _BioUpdateState extends State<BioUpdate> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            TextField(
-              controller: bioField,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  final user = FirebaseAuth.instance.currentUser;
-                  final db = FirebaseFirestore.instance;
-                  final bio = bioField.text;
-                  final data = {'bio':bio};
-                  db.collection('users').doc(user?.email).set(data, SetOptions(merge: true));
-                  
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    profileRoute,
-                    (route) => false,
-                  );
-                },
-                child: const Text("Update"))
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 275),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 112, 9, 1))),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(255, 112, 9, 1),
+                            ),
+                          ),
+                          hintText: 'Enter your bio',
+                          hintStyle: GoogleFonts.openSans(),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 6, horizontal: 5)),
+                      controller: bioField,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                      )
+                    ],
+                  ),
+                  height: 22,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.white),
+                      onPressed: () {
+                        final user = FirebaseAuth.instance.currentUser;
+                        final db = FirebaseFirestore.instance;
+                        final bio = bioField.text;
+                        final data = {'bio': bio};
+                        db
+                            .collection('users')
+                            .doc(user?.email)
+                            .set(data, SetOptions(merge: true));
+
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          profileRoute,
+                          (route) => false,
+                        );
+                      },
+                      child: Text(
+                        "Save",
+                        style: GoogleFonts.openSans(
+                            color: Color.fromARGB(255, 112, 9, 15)),
+                      )))
+            ],
+          ),
         ),
       ),
     );
