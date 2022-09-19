@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../constants/routes.dart';
 
@@ -24,7 +25,7 @@ List<String> item = [
   'Angry',
   'Gloomy',
   'Excited',
-  'Borred'
+  'Bored'
 ];
 
 class ProfileView extends StatefulWidget {
@@ -35,6 +36,30 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  String holder = '';
+  void getDropDownItem() {
+    setState(() {
+      holder = dropdownval;
+    });
+  }
+
+  late final TextEditingController _bio;
+
+  late final TextEditingController _mood;
+  @override
+  void initState() {
+    _bio = TextEditingController();
+    _mood = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _bio.dispose();
+    _mood.dispose();
+    super.dispose();
+  }
+
   String dropdownval = item.first;
   @override
   Widget build(BuildContext context) {
@@ -43,7 +68,7 @@ class _ProfileViewState extends State<ProfileView> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 112, 9, 1),
         title: const Text(
-          'GEC CONNECT',
+          'PROFILE',
         ),
         actions: [
           PopupMenuButton<MenuAction>(
@@ -69,70 +94,159 @@ class _ProfileViewState extends State<ProfileView> {
           )
         ],
       ),
-      body: SafeArea(
-        child: Column(children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Text(
-              'Profile',
-              style: GoogleFonts.openSans(),
+      body: Container(
+        color: Color.fromARGB(255, 156, 156, 156),
+        child: SafeArea(
+          child: Column(children: [
+            SizedBox(
+              height: 160,
             ),
-          ),
-          CircleAvatar(
-            radius: 50,
-            backgroundColor: Colors.transparent,
-            child: SizedBox(
-              width: 100,
-              height: 60,
+            CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.transparent,
               child: ClipOval(
                 child: Image.asset(
                   "assets/user.png",
                 ),
               ),
             ),
-          ),
-          Center(
-            child: Text("Name"),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 25,
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Text(
+                "Name",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
-              Text(
-                'Mood',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 300, left: 10),
+              child: Container(
+                height: 40,
+                child: Text(
+                  "Bio",
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-            ],
-          ),
-          DropdownButton<String>(
-            value: dropdownval,
-            elevation: 0,
-            items: item
-                .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem(
-                    child: Text(value),
-                    value: value,
-                  ),
-                )
-                .toList(),
-            onChanged: (String? value) {
-              setState(() {
-                dropdownval = value ?? dropdownval;
-              });
-            },
-          )
-        ]),
+            ),
+            SizedBox(height: 2.5),
+            Padding(
+                padding: EdgeInsets.only(right: 10, left: 10),
+                child: Container(
+                  height: 40,
+                  child: Text("Hey there I am using GEC-CONNECT"),
+                )),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.white),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      // Retrieve the text the that user has entered by using the
+                      // TextEditingController.
+                      content: TextField(),
+                    );
+                  },
+                );
+              },
+              child: const Text(
+                'Update',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Container(
+                height: 40,
+                child: TextField(
+                  controller: _mood,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter your mood',
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 8)),
+                ),
+              ),
+            ),
+            SizedBox(height: 2.5),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.white),
+              onPressed: () async {
+                final mood = _mood.text;
+
+                var db = FirebaseFirestore.instance;
+                final userData = <String, dynamic>{'mood': mood};
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      // Retrieve the text the that user has entered by using the
+                      // TextEditingController.
+                      content: Text(_mood.text),
+                    );
+                  },
+                );
+              },
+              child: const Text(
+                'Save',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            // Row(
+            //   children: [
+            //     // Padding(
+            //     //   padding: const EdgeInsets.symmetric(horizontal: 100.0),
+            //     //   child: Text(
+            //     //     'Select your current mood',
+            //     //     style: TextStyle(fontSize: 16.0),
+            //     //   ),
+            //     // ),
+            //   ],
+            // ),
+            SizedBox(
+              height: 2.5,
+            ),
+            // Container(
+            //   height: 35,
+            //   decoration: BoxDecoration(
+            //       color: Colors.white, borderRadius: BorderRadius.circular(0)),
+            //   child: DropdownButton<String>(
+            //     value: dropdownval,
+            //     items: item
+            //         .map<DropdownMenuItem<String>>(
+            //           (String value) => DropdownMenuItem(
+            //             child: Text(
+            //               value,
+            //               style: TextStyle(fontSize: 15),
+            //             ),
+            //             value: value,
+            //           ),
+            //         )
+            //         .toList(),
+            //     onChanged: (String? value) {
+            //       setState(() {
+            //         dropdownval = value ?? dropdownval;
+            //       });
+            //     },
+            //   ),
+            // )
+          ]),
+        ),
       ),
     );
   }
 }
 
-// Dialog Box
+// Dialog Bo print('$holder'); print('$holder');x
 
 Future<bool> showDialogeLogout(BuildContext context) {
   return showDialog<bool>(

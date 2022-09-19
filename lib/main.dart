@@ -13,14 +13,7 @@ import '/views/splash.dart';
 import 'views/verify_email_test.dart';
 import 'firebase_options.dart';
 
-
-
-
-
-
-
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
@@ -36,12 +29,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  const ProfileView(),
+      home: const ProfileView(),
       routes: {
-        loginRoute:(context) => const Login(),
-        registerRoute:(context) => const Register(),
-        verifyRoute:(context) => const VerifyEmail(),
-        mainRoute:(context) => const SigninView(),
+        loginRoute: (context) => const Login(),
+        registerRoute: (context) => const Register(),
+        verifyRoute: (context) => const VerifyEmail(),
+        mainRoute: (context) => const SigninView(),
       },
     );
   }
@@ -52,38 +45,37 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
-  
 }
 
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-          future: Firebase.initializeApp(
+      future: Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       ),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
-          
           case ConnectionState.done:
-          final user = FirebaseAuth.instance.currentUser;
-          if(user != null) {
-          if (user.emailVerified) {
-            return const SigninView();
-          }
-          else {
-            // Navigator.of(context).pushNamedAndRemoveUntil('/veify/', (route) => false); 
-            return const VerifyEmail();           
-          }
-          }
-           else {
-            return const Login();
-          }
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              if (user.emailVerified) {
+                return const SigninView();
+              } else {
+                // Navigator.of(context).pushNamedAndRemoveUntil('/veify/', (route) => false);
+                return const VerifyEmail();
+              }
+            } else {
+              return const Login();
+            }
           default:
-          // Navigator.of(context).pushNamedAndRemoveUntil('/login/', (route) => false);
-          return const Center(child: CircularProgressIndicator.adaptive(),);
+            // Navigator.of(context).pushNamedAndRemoveUntil('/login/', (route) => false);
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
           // return const Text('Loading....');
         }
-      },);
+      },
+    );
   }
 }
